@@ -8,8 +8,14 @@ Cassini images are made public here https://pds.jpl.nasa.gov/ one year after bei
 Files:
 
 Minijets.csv    -     Comma seperated variable file containg measurements of each minijet feature and the image they were observed in
+
 Series.csv      -     Comma seperated variable file containg details of the observations sequences the images are from
+
 mj_readdata.py  -     Python code to read in the data, do some basic manipulation and plots
+
 mj_timetrend.py  -    Python code to analyse time trends in minijet features
+
 mj_morpho.py  -       Python code to analyse morphology of minijet features
+
+
 
