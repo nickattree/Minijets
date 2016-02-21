@@ -33,3 +33,9 @@ plt.xlabel(r'$\lambda_n$ ($^{\circ}$)')
 plt.ylabel('Date')
 plt.xticks(np.linspace(0, 360, 5, endpoint=True))
 plt.savefig('plot_coverage.pdf')
+
+# Histogram of the number of features per sequence
+
+# Features persequence over time
+
+# Number of features relative to Prometheus
