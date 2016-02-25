@@ -1,7 +1,9 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas
 from pandas.tools import plotting
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.style.use('ggplot')
 
 data = pandas.read_csv('Minijets.csv', na_values="-")
 

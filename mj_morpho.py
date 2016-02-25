@@ -16,3 +16,6 @@ plt.xlim(-200, 200)
 plt.xlabel('r (km)')
 plt.ylabel('Features')
 plt.savefig('plot_r.pdf')
+
+# Alterative usin gpandas
+data.r[data.Class=='Classic'].plot(kind = 'hist', bins =80)
