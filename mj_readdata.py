@@ -21,8 +21,8 @@ af = 140221.0
 # Elapsed seconds between measurment and epoch
 data['secs']=(epoch-data.t).dt.total_seconds()
 # Corotating longitude
-nl_base = data.Base_Longitude + data.secs * mmf/24.0/60.0/60.0%360
-nl_tip = data.Tip_Longitude + data.secs * mmf/24.0/60.0/60.0%360
+nl_base = (data.Base_Longitude + data.secs * mmf/24.0/60.0/60.0) % 360
+nl_tip = (data.Tip_Longitude + data.secs * mmf/24.0/60.0/60.0) % 360
 nl_base[nl_base > 360.0] = nl_base-360
 nl_tip[nl_tip > 360.0] = nl_tip-360
 # Lengths and angles

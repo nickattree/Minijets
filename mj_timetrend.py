@@ -67,12 +67,36 @@ plt.savefig('plot_timetrend.pdf')
 # Number of features relative to Prometheus
 # Prometheus orbital parameters
 prom_mlepoch = 306.117
-prom_epoch = pandas.to_datetime('2004-001T01:00:00.000', format='%Y-%jT%H:%M:%S.%f')
+prom_epoch = pandas.to_datetime('2004-001T00:00:00.000', format='%Y-%jT%H:%M:%S.%f')
 prom_mm = 587.2852370
-l_prom = (prom_mlepoch + (prom_epoch-data.t).dt.total_seconds()*prom_mm)/24.0/60.0/60. % 360.00	#Actually mean longitude (no ecc)
+l_prom = (prom_mlepoch + (prom_epoch-data.t).dt.total_seconds()*(prom_mm/24.0/60.0/60.)) % 360.00	#Actually mean longitude (no ecc)
 data['rel'] = data.Base_Longitude - l_prom
 data.rel[data.rel>180.0]= -1.*(l_prom[data.rel>180.0]+360.0-data.Base_Longitude[data.rel>180.0])
 data.rel[data.rel<-180.0]= data.Base_Longitude[data.rel<-180.0]+360.0-l_prom[data.rel<-180.0]
 plt.figure(figsize=(8, 6), dpi=80)
 data.rel.plot(kind = 'hist', bins = 72)
+plt.xlim(-180, 180)
+plt.xlabel(r'$\lambda$-$\lambda_{Prom}$ ($^{\circ}$)')
+plt.ylabel('Features')
 plt.savefig('plot_reltoprom.pdf')
+
+# Fourier Transforms 
+# Will do these properlly by interpolating onto regular spacing later
+# Some longitudes are Nans - get rid of hem for now
+y1 = data.Base_Longitude[~np.isnan(data.Base_Longitude)]
+y2 = data.rel[~np.isnan(data.rel)]
+bins = np.arange(0, 360)
+y1 = np.histogram(y1, bins = bins)[0]
+y2 = np.histogram(y2, bins = bins)[0]
+fft_rel = np.fft.rfft(y1)
+fft_base = np.fft.rfft(y2)
+x = np.arange(fft_rel.size)
+x = 360./x
+# Plot Power spectrum (abs(fft)^2) against xth longitude bin
+plt.figure(figsize=(8, 6), dpi=80)
+plt.loglog(x, abs(fft_base)**2.0, label = r'$\lambda_n$')
+plt.loglog(x, abs(fft_rel)**2.0, label = r'$\lambda$-$\lambda_{Prom}$')
+plt.legend(loc='upper left')
+plt.ylabel('Power')
+plt.xlabel('($^{\circ}$)')
+plt.savefig('plot_fft.pdf')
